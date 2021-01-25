@@ -29,6 +29,8 @@ namespace Voltorb_Flip {
         int currentLevelScore = 0;
         int totalScore = 0;
         int level = 1;
+        // used for tracking level downs after a gameOver
+        int valueCardsFlipped = 0;
 
         // used for tracking when the game is done. Game finishes when player clicks a bomb card or gets all
         // the x2 and x3 cards in a level.
@@ -44,6 +46,7 @@ namespace Voltorb_Flip {
 
         private void AssignIconsToSquares() {
             currentLevelScore = 0;
+            valueCardsFlipped = 0;
             // The TableLayoutPanel has 25 labels, and the icon list has 25 icons,
             // based on the level, we pull a possible combination of 2, 3, and bomb cards from
             // the appropriate tuple list and place them into appropriate tracking variables.
@@ -152,6 +155,7 @@ namespace Voltorb_Flip {
                 }
                 currentLevelScore *= 2;
                 numOf2CardsLeft--;
+                valueCardsFlipped++;
                 Console.WriteLine("x2. Score is now: " + currentLevelScore);
             }
             else if (value.Equals("x3")) {
@@ -160,6 +164,7 @@ namespace Voltorb_Flip {
                 }
                 currentLevelScore *= 3;
                 numOf3CardsLeft--;
+                valueCardsFlipped++;
                 Console.WriteLine("x3. Score is now: " + currentLevelScore);
             }
             // if you hit the bomb you get a game over.
@@ -540,6 +545,18 @@ namespace Voltorb_Flip {
         private void gameOverB() {
             soundBoom.Play();
             gameOver = true;
+            // If the player revealed less x2 & x3 cards than the current level's number, then they'll be demoted to
+            // the level number equal to how x2 & x3 cards they did reveal. 
+            if(valueCardsFlipped < level) {
+                Console.Write("Level drop from " + level);
+                if(valueCardsFlipped <= 1) {
+                    level = 1;
+                }
+                else {
+                    level = valueCardsFlipped;
+                }
+                Console.WriteLine(" to " + level);
+            }
             foreach (Control control in tableLayoutPanel1.Controls) {
                 Label iconLabel = control as Label;
 
@@ -562,7 +579,7 @@ namespace Voltorb_Flip {
                 }
 
             }
-            var result = MessageBox.Show("Game over! Click ok to restart the level.", "BOOM!", MessageBoxButtons.OK);
+            var result = MessageBox.Show("Game over! Demoted to level " + level, "BOOM!", MessageBoxButtons.OK);
             if (result == DialogResult.OK) {
                 AssignIconsToSquares();
                 gameOver = false;
