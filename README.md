@@ -29,4 +29,4 @@ How my current version looks like.
 ## Additional resources
 - https://bulbapedia.bulbagarden.net/wiki/Voltorb_Flip - Explains the game's mechanics and some possible strategies, also reveals the possible number of bombs/x2/x3 cards that can appear per level. 
 
-- http://voltorbflip.com/ - A voltorb flip solver. While this was created for the original Voltorb Flip minigame in Pokemon HGSS, since my game is mechnically identical to the original, this should work for it.
+- http://voltorbflip.com/ - A voltorb flip solver. While this was created for the original Voltorb Flip minigame in Pokemon HGSS, since my game is mechnically identical to the original, this should work for it. Note that while some levels can be "solved" with logic and deduction, the game still has a healthy amount of luck involved such that there will always be a point where the player has to flip card with uncertainity (for example a new board where all rows/columns have at least 1 bomb), thus the game cannot be solved by a computer every time and this solver's algorithm is not necessarily the optimal or safest way to play the game either. 
