@@ -127,7 +127,7 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(661, 535);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Click += new System.EventHandler(this.label_Click);
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            
             // 
             // timer1
             // 
@@ -221,7 +221,6 @@
             this.label1_1.TabIndex = 5;
             this.label1_1.Text = "5\r\n0";
             this.label1_1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1_1.Click += new System.EventHandler(this.label6_Click);
             // 
             // label6
             // 
@@ -630,7 +629,6 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Form1";
             this.Text = "Voltorb Flip";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

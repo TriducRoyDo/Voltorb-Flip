@@ -95,7 +95,7 @@ namespace Voltorb_Flip {
                             }
                         }
                         // then hide the card's value by changing text color to match background color.
-                        // iconLabel.ForeColor = iconLabel.BackColor;
+                        iconLabel.ForeColor = iconLabel.BackColor;
                     }
                 }
             }
@@ -199,6 +199,7 @@ namespace Voltorb_Flip {
             }
             // if you hit the bomb you get a game over.
             else if (value.Equals("BOOM!")) {
+                soundBoom.Play();
                 score *= 0;
                 Console.WriteLine("x0. Score is now: " + score);
                 gameOver = true;
@@ -218,29 +219,10 @@ namespace Voltorb_Flip {
         }
 
         void calculateCardBombIndicators() {
-            int valueOfCards = 0;
-            int numBombs = 0;
-            int count = 0;
-            foreach (Control control in tableLayoutPanel1.Controls) {
-                Label iconLabel = control as Label;
-                //ignore the labels containing card/bomb counts and the 36th unused title
-                if (iconLabel.Name == "label1_1" || iconLabel.Name == "label1_2" || iconLabel.Name == "label1_3" || iconLabel.Name == "label1_4" || iconLabel.Name == "label1_5"
-                    || iconLabel.Name == "label2_1" || iconLabel.Name == "label2_2" || iconLabel.Name == "label2_3" || iconLabel.Name == "label2_4" || iconLabel.Name == "label2_5"
-                    || iconLabel.Name == "label36") {
-                }
-                else if(valueOfCard(iconLabel.Text) > 0) {
-                    valueOfCards += valueOfCard(iconLabel.Text);
-                    count++;
-                }else if(valueOfCard(iconLabel.Text) == 0){
-                    numBombs++;
-                    count++;
-                }
-                if(count == 5) {
-                    label1_1.Text = valueOfCards + "\n" + numBombs;
-                    Console.WriteLine(valueOfCards + "\n" + numBombs);
-                }
-            }
+            calculateRows();
+            calculateColumns();
         }
+
 
         int valueOfCard(String card) {
             if (card.Equals("x2")) {
@@ -257,20 +239,344 @@ namespace Voltorb_Flip {
                 return 1;
             }
         }
-        void Form1_Load(object sender, EventArgs e) {
+        
+        // just brute force counts each row, label by label since I couldn't figure out a clever way
+        // to loop through the labels. 
+        private void calculateRows() {
+            int sum1 = 0;
+            int sum2 = 0;
+            int sum3 = 0;
+            int sum4 = 0;
+            int sum5 = 0;
+            int numBombs1 = 0;
+            int numBombs2 = 0;
+            int numBombs3 = 0;
+            int numBombs4 = 0;
+            int numBombs5 = 0;
+            if (valueOfCard(label1.Text) > 0) {
+                sum1 += valueOfCard(label1.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label2.Text) > 0) {
+                sum1 += valueOfCard(label2.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label3.Text) > 0) {
+                sum1 += valueOfCard(label3.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label4.Text) > 0) {
+                sum1 += valueOfCard(label4.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label5.Text) > 0) {
+                sum1 += valueOfCard(label5.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label6.Text) > 0) {
+                sum2 += valueOfCard(label6.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label7.Text) > 0) {
+                sum2 += valueOfCard(label7.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label8.Text) > 0) {
+                sum2 += valueOfCard(label8.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label9.Text) > 0) {
+                sum2 += valueOfCard(label9.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label10.Text) > 0) {
+                sum2 += valueOfCard(label10.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label11.Text) > 0) {
+                sum3 += valueOfCard(label11.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label12.Text) > 0) {
+                sum3 += valueOfCard(label12.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label13.Text) > 0) {
+                sum3 += valueOfCard(label13.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label14.Text) > 0) {
+                sum3 += valueOfCard(label14.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label15.Text) > 0) {
+                sum3 += valueOfCard(label15.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label16.Text) > 0) {
+                sum4 += valueOfCard(label16.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label18.Text) > 0) {
+                sum4 += valueOfCard(label18.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label19.Text) > 0) {
+                sum4 += valueOfCard(label19.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label20.Text) > 0) {
+                sum4 += valueOfCard(label20.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label17.Text) > 0) {
+                sum4 += valueOfCard(label17.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label21.Text) > 0) {
+                sum5 += valueOfCard(label21.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label22.Text) > 0) {
+                sum5 += valueOfCard(label22.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label23.Text) > 0) {
+                sum5 += valueOfCard(label23.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label24.Text) > 0) {
+                sum5 += valueOfCard(label24.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label25.Text) > 0) {
+                sum5 += valueOfCard(label25.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            label1_1.Text = sum1 + "\n" + numBombs1;
+            label1_2.Text = sum2 + "\n" + numBombs2;
+            label1_3.Text = sum3 + "\n" + numBombs3;
+            label1_4.Text = sum4 + "\n" + numBombs4;
+            label1_5.Text = sum5 + "\n" + numBombs5;
 
         }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e) {
-
-        }
-
-        private void label31_Click(object sender, EventArgs e) {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e) {
-
+        // also brute force counting
+        private void calculateColumns() {
+            int sum1 = 0;
+            int sum2 = 0;
+            int sum3 = 0;
+            int sum4 = 0;
+            int sum5 = 0;
+            int numBombs1 = 0;
+            int numBombs2 = 0;
+            int numBombs3 = 0;
+            int numBombs4 = 0;
+            int numBombs5 = 0;
+            if (valueOfCard(label1.Text) > 0) {
+                sum1 += valueOfCard(label1.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label2.Text) > 0) {
+                sum2 += valueOfCard(label2.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label3.Text) > 0) {
+                sum3 += valueOfCard(label3.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label4.Text) > 0) {
+                sum4 += valueOfCard(label4.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label5.Text) > 0) {
+                sum5 += valueOfCard(label5.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label6.Text) > 0) {
+                sum1 += valueOfCard(label6.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label7.Text) > 0) {
+                sum2 += valueOfCard(label7.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label8.Text) > 0) {
+                sum3 += valueOfCard(label8.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label9.Text) > 0) {
+                sum4 += valueOfCard(label9.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label10.Text) > 0) {
+                sum5 += valueOfCard(label10.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label11.Text) > 0) {
+                sum1 += valueOfCard(label11.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label12.Text) > 0) {
+                sum2 += valueOfCard(label12.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label13.Text) > 0) {
+                sum3 += valueOfCard(label13.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label14.Text) > 0) {
+                sum4 += valueOfCard(label14.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label15.Text) > 0) {
+                sum5 += valueOfCard(label15.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label16.Text) > 0) {
+                sum1 += valueOfCard(label16.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label17.Text) > 0) {
+                sum2 += valueOfCard(label17.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label18.Text) > 0) {
+                sum3 += valueOfCard(label18.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label19.Text) > 0) {
+                sum4 += valueOfCard(label19.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label20.Text) > 0) {
+                sum5 += valueOfCard(label20.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            if (valueOfCard(label21.Text) > 0) {
+                sum1 += valueOfCard(label21.Text);
+            }
+            else {
+                numBombs1++;
+            }
+            if (valueOfCard(label22.Text) > 0) {
+                sum2 += valueOfCard(label22.Text);
+            }
+            else {
+                numBombs2++;
+            }
+            if (valueOfCard(label23.Text) > 0) {
+                sum3 += valueOfCard(label23.Text);
+            }
+            else {
+                numBombs3++;
+            }
+            if (valueOfCard(label24.Text) > 0) {
+                sum4 += valueOfCard(label24.Text);
+            }
+            else {
+                numBombs4++;
+            }
+            if (valueOfCard(label25.Text) > 0) {
+                sum5 += valueOfCard(label25.Text);
+            }
+            else {
+                numBombs5++;
+            }
+            label2_1.Text = sum1 + "\n" + numBombs1;
+            label2_2.Text = sum2 + "\n" + numBombs2;
+            label2_3.Text = sum3 + "\n" + numBombs3;
+            label2_4.Text = sum4 + "\n" + numBombs4;
+            label2_5.Text = sum5 + "\n" + numBombs5;
         }
     }
 }
