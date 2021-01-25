@@ -20,7 +20,7 @@ How my current version looks like.
 
 ![alt text](https://github.com/TriducRoyDo/Voltorb-Flip/blob/master/Voltorb%20Flip/revealed_example.jpg)
 
-* *For example, look at this board where all the cards are revealed. In the first row, left to right, if you add them up you will get 5 (1 + 1 + 1 + 1) and 0 bombs. Indeed the value-bomb indicator at the end of the row (blue) reads 5 - 0. Similarly, if you look at the first column top to bottom, you'll see the values in that column add up to 6 (1 + 2 + 2 + 1) and there is one bomb in the column, adding up to 6 - 1 on the first column value-bomb indicator (also blue).* *
+* *For example, look at this board where all the cards are revealed. In the first row, left to right, if you add them up you will get 5 (1 + 1 + 1 + 1 + 1) and 0 bombs. Indeed the value-bomb indicator at the end of the row (blue) reads 5 - 0. Similarly, if you look at the first column top to bottom, you'll see the values in that column add up to 6 (1 + 2 + 2 + 1) and there is one bomb in the column, adding up to 6 - 1 on the first column value-bomb indicator (also blue).* *
 
 -Higher levels increase the number of x2/x3 cards on the board but also increase the number of bomb cards.
 
