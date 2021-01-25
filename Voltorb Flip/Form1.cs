@@ -52,45 +52,54 @@ namespace Voltorb_Flip {
             // based on the numofXCards variables above, if it has, just roll again.
             foreach (Control control in tableLayoutPanel1.Controls) {
                 Label iconLabel = control as Label;
-                bool valueSet = false;
-                if (iconLabel != null) {
-                    while (!valueSet) {
-                        int randomNum = random.Next(4);
-                        switch (randomNum) {
-                            case 0:
-                                if(numOf2Cards > 0) {
-                                    iconLabel.Text = "x2";
-                                    numOf2Cards--;
-                                    valueSet = true;
-                                }
-                                break;
-                            case 1:
-                                if (numOf3Cards > 0) {
-                                    iconLabel.Text = "x3";
-                                    numOf3Cards--;
-                                    valueSet = true;
-                                }
-                                break;
-                            case 2:
-                                if (numOfBombs > 0) {
-                                    iconLabel.Text = "BOOM!";
-                                    numOfBombs--;
-                                    valueSet = true;
-                                }
-                                break;
-                            case 3:
-                                if (numOf1Cards > 0) {
-                                    iconLabel.Text = "x1";
-                                    numOf1Cards--;
-                                    valueSet = true;
-                                }
-                                break;
+
+                //ignore the labels containing card/bomb counts and the 36th unused title
+                if (iconLabel.Name == "label1_1" || iconLabel.Name == "label1_2" || iconLabel.Name == "label1_3" || iconLabel.Name == "label1_4" || iconLabel.Name == "label1_5"
+                    || iconLabel.Name == "label2_1" || iconLabel.Name == "label2_2" || iconLabel.Name == "label2_3" || iconLabel.Name == "label2_4" || iconLabel.Name == "label2_5"
+                    || iconLabel.Name == "label36") {
+                }
+                else {
+                    bool valueSet = false;
+                    if (iconLabel != null) {
+                        while (!valueSet) {
+                            int randomNum = random.Next(4);
+                            switch (randomNum) {
+                                case 0:
+                                    if (numOf2Cards > 0) {
+                                        iconLabel.Text = "x2";
+                                        numOf2Cards--;
+                                        valueSet = true;
+                                    }
+                                    break;
+                                case 1:
+                                    if (numOf3Cards > 0) {
+                                        iconLabel.Text = "x3";
+                                        numOf3Cards--;
+                                        valueSet = true;
+                                    }
+                                    break;
+                                case 2:
+                                    if (numOfBombs > 0) {
+                                        iconLabel.Text = "BOOM!";
+                                        numOfBombs--;
+                                        valueSet = true;
+                                    }
+                                    break;
+                                case 3:
+                                    if (numOf1Cards > 0) {
+                                        iconLabel.Text = "x1";
+                                        numOf1Cards--;
+                                        valueSet = true;
+                                    }
+                                    break;
+                            }
                         }
+                        // then hide the card's value by changing text color to match background color.
+                        // iconLabel.ForeColor = iconLabel.BackColor;
                     }
                 }
-                // then hide the card's value by changing text color to match background color.
-                // iconLabel.ForeColor = iconLabel.BackColor;
             }
+            calculateCardBombIndicators();
         }
 
         private void label_Click(object sender, EventArgs e) {
@@ -154,20 +163,22 @@ namespace Voltorb_Flip {
         }
         
 
-        /// <summary>
-        /// Check every icon to see if it is matched, by 
-        /// comparing its foreground color to its background color. 
-        /// If all of the icons are matched, the player wins
-        /// </summary>
+       // checks if user found all x2 & x3 cards. If they did, they cleared the level.
         private void CheckForWinner() {
             Console.WriteLine($"2cards: {numOf2CardsLeft}. 3cards: {numOf3CardsLeft}");
             if (numOf2CardsLeft == 0 && numOf3CardsLeft == 0) {
                 gameOver = true;
-                MessageBox.Show("You found all the x2 and x3 cards!", "Congratulations");
+                var result = MessageBox.Show("You found all the x2 and x3 cards! Click OK to go next level.", "Congratulations", MessageBoxButtons.OK);
+                if(result == DialogResult.OK) {
+                    AssignIconsToSquares();
+                    gameOver = false;
+                }
                 //Close();
             }
         }
 
+        // changes score based on card revealed's label text, also changes the score label.
+        // for x1, x2, x3 if the score is 0 then it's changed to 1 then multiplied.
         public void calculateScore(string value) {
             Console.WriteLine("Score before new calc: " + score);
             if (value.Equals("x2")) {
@@ -186,11 +197,16 @@ namespace Voltorb_Flip {
                 numOf3CardsLeft--;
                 Console.WriteLine("x3. Score is now: " + score);
             }
+            // if you hit the bomb you get a game over.
             else if (value.Equals("BOOM!")) {
                 score *= 0;
                 Console.WriteLine("x0. Score is now: " + score);
-                MessageBox.Show("BOOM!", "Game Over!");
                 gameOver = true;
+                var result = MessageBox.Show("Game over! Click ok to restart the level.", "BOOM!", MessageBoxButtons.OK);
+                if (result == DialogResult.OK) {
+                    AssignIconsToSquares();
+                    gameOver = false;
+                }
             }
             else {
                 if (score == 0) {
@@ -199,6 +215,62 @@ namespace Voltorb_Flip {
                 Console.WriteLine($"x1, no change. Score {score}");
             }
             scoreLabel.Text = "Score: " + score.ToString();
+        }
+
+        void calculateCardBombIndicators() {
+            int valueOfCards = 0;
+            int numBombs = 0;
+            int count = 0;
+            foreach (Control control in tableLayoutPanel1.Controls) {
+                Label iconLabel = control as Label;
+                //ignore the labels containing card/bomb counts and the 36th unused title
+                if (iconLabel.Name == "label1_1" || iconLabel.Name == "label1_2" || iconLabel.Name == "label1_3" || iconLabel.Name == "label1_4" || iconLabel.Name == "label1_5"
+                    || iconLabel.Name == "label2_1" || iconLabel.Name == "label2_2" || iconLabel.Name == "label2_3" || iconLabel.Name == "label2_4" || iconLabel.Name == "label2_5"
+                    || iconLabel.Name == "label36") {
+                }
+                else if(valueOfCard(iconLabel.Text) > 0) {
+                    valueOfCards += valueOfCard(iconLabel.Text);
+                    count++;
+                }else if(valueOfCard(iconLabel.Text) == 0){
+                    numBombs++;
+                    count++;
+                }
+                if(count == 5) {
+                    label1_1.Text = valueOfCards + "\n" + numBombs;
+                    Console.WriteLine(valueOfCards + "\n" + numBombs);
+                }
+            }
+        }
+
+        int valueOfCard(String card) {
+            if (card.Equals("x2")) {
+                return 2;
+            }
+            else if (card.Equals("x3")) {
+                return 3;
+            }
+            // if you hit the bomb you get a game over.
+            else if (card.Equals("BOOM!")) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
+        }
+        void Form1_Load(object sender, EventArgs e) {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e) {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e) {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e) {
+
         }
     }
 }
