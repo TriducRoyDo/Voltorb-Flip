@@ -69,10 +69,18 @@ namespace Voltorb_Flip {
             numOf2CardsLeft = lvlValues.Item1;
             numOf3CardsLeft = lvlValues.Item2;
 
+            // adds all the labels (controls) from the tableLayoutPanel into a list
+            // then shuffles the order of the labels to ensure a random distribution of
+            // cards throughout the board.
+            List<Control> listofLabels = new List<Control>();
+            listofLabels.AddRange(tableLayoutPanel1.Controls.OfType<Control>());
+            shuffle(listofLabels);
+
             // go through each of the 25 labels and randomly assign them x1, x2, x3, or bomb.
             // valueset checks that the value we roll hasn't already been assigned the max amount of times
             // based on the numofXCards variables above, if it has, just roll again.
-            foreach (Control control in tableLayoutPanel1.Controls) {
+
+            foreach (Control control in listofLabels) {
                 Label iconLabel = control as Label;
 
                 //ignore the labels containing card/bomb counts and the 36th unused title
@@ -683,6 +691,18 @@ namespace Voltorb_Flip {
                 label36.ForeColor = Color.Red;
             }
         }
+
+        public void shuffle(List<Control> list) {
+            int n = list.Count;
+            while (n > 1) {
+                n--;
+                int k = random.Next(n + 1);
+                Control value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+
     }
 }
 
