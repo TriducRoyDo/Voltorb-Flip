@@ -20,9 +20,11 @@ How my current version looks like.
 
 ![alt text](https://github.com/TriducRoyDo/Voltorb-Flip/blob/master/Voltorb%20Flip/revealed_example.jpg)
 
-* *For example, look at this board where all the cards are revealed. In the first row, left to right, if you add them up you will get 5 (1 + 1 + 1 + 1 + 1) and 0 bombs. Indeed the value-bomb indicator at the end of the row (blue) reads 5 - 0. Similarly, if you look at the first column top to bottom, you'll see the values in that column add up to 6 (1 + 2 + 2 + 1) and there is one bomb in the column, adding up to 6 - 1 on the first column value-bomb indicator (also blue).* *
+*For example, look at this board where all the cards are revealed. In the first row, left to right, if you add them up you will get 5 (1 + 1 + 1 + 1 + 1) and 0 bombs. Indeed the value-bomb indicator at the end of the row (blue) reads 5 - 0. Similarly, if you look at the first column top to bottom, you'll see the values in that column add up to 6 (1 + 2 + 2 + 1) and there is one bomb in the column, adding up to 6 - 1 on the first column value-bomb indicator (also blue).* 
 
 -Higher levels increase the number of x2/x3 cards on the board but also increase the number of bomb cards.
+
+-When the player gets game over by hitting the bomb, they may be demoted to a lower level if the total number of x2 + x3 cards they revealed is less then the current level's number, in that case they will be demoted to the level number equal to how many x2 plus x3 cards they did reveal in that level before flipping a bomb. For example, say in level 3, I flip 4 x2 cards then hit a bomb, I will not be demoted since I flipped more x2/x3 cards than the current level's number. But if I am in level  and flip 2 x3 cards before hitting a bomb, 2 is less than level 7 so I will be demoted, and since I flipped only 2 x3's I will be demoted all the way back to level 2!
 
 -Tip: Flipping a x1 card does nothing to increase your score or get you closer to clearing a level. If you deduce a card can only be either a x1 or bomb based on the column/row indicators, it's probably a good idea to not even bother flipping it!
 
