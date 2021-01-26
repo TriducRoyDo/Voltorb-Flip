@@ -124,19 +124,21 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(661, 535);
             this.tableLayoutPanel1.TabIndex = 0;
-            //this.tableLayoutPanel1.Click += new System.EventHandler(this.label_Click);
             // 
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.BackColor = System.Drawing.Color.Black;
+            this.label36.BackColor = System.Drawing.Color.White;
             this.label36.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label36.Font = new System.Drawing.Font("Adobe Fan Heiti Std B", 18.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label36.ForeColor = System.Drawing.Color.Black;
             this.label36.Location = new System.Drawing.Point(550, 442);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(106, 91);
             this.label36.TabIndex = 35;
+            this.label36.Text = "MEMO\r\nMODE \r\nOFF";
             this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label36.Click += new System.EventHandler(this.memoClick);
             // 
             // label2_5
             // 

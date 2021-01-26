@@ -41,6 +41,7 @@ namespace Voltorb_Flip {
         // if a player wins 5 games in a row, each flipping at least 8 value/multiplier cards, they'll 
         // be promoted straight to level 8, the hardest level.
         int winStreak = 0;
+        bool memoModeOn = false;
         public Form1() {
             InitializeComponent();
             AssignIconsToSquares();
@@ -62,6 +63,7 @@ namespace Voltorb_Flip {
             int numOfBombs = lvlValues.Item3;
             // num of x1 cards is every card that is not x2, x3, or a bomb.
             int numOf1Cards = 25 - (numOf2Cards + numOf3Cards + numOfBombs);
+            Console.WriteLine($"{level} loaded. x2: {numOf2Cards} x3: {numOf3Cards} b: {numOfBombs} x1: {numOf1Cards} ");
 
             // these are for tracking the x2 and x3 cards during actual gameplay to determine level clears.
             numOf2CardsLeft = lvlValues.Item1;
@@ -80,6 +82,7 @@ namespace Voltorb_Flip {
                 }
                 else {
                     bool valueSet = false;
+                    iconLabel.BackColor = Color.MediumAquamarine;
                     if (iconLabel != null) {
                         while (!valueSet) {
                             int randomNum = random.Next(4);
@@ -141,11 +144,29 @@ namespace Voltorb_Flip {
                 if (clickedLabel.ForeColor == Color.Black)
                     return;
 
-                clickedLabel.ForeColor = Color.Black;
-                calculateScore(clickedLabel.Text);
+                // if memo mode is on, we don't flip the card instead we mark the card by turning it 
+                // white or unmark it if it's currently white. Make sure to change the forecolor too
+                // otherwise the card's value will be revealed when changing the card value.
+                if (memoModeOn) {
+                    if (clickedLabel.BackColor == Color.MediumAquamarine) {
+                        clickedLabel.BackColor = Color.White;
+                        clickedLabel.ForeColor = clickedLabel.BackColor;
+                    }
+                    else {
+                    clickedLabel.BackColor = Color.MediumAquamarine;
+                    clickedLabel.ForeColor = clickedLabel.BackColor;
+                    }
+                }
+                else {
+                    // reveal the card and calculate score based on card's value, also change the card
+                    // color back to aquamarine if it was marked by memo mode.
+                    clickedLabel.BackColor = Color.MediumAquamarine;
+                    clickedLabel.ForeColor = Color.Black;
+                    calculateScore(clickedLabel.Text);
 
-                // Check to see if the player won
-                CheckForWinner();
+                    // Check to see if the player won by getting all the x2/x3 multipliers
+                    CheckForWinner();
+                }
             }
         }
 
@@ -648,6 +669,18 @@ namespace Voltorb_Flip {
                 }
 
                 //Close();
+            }
+        }
+
+        private void memoClick(object sender, EventArgs e) {
+            if (memoModeOn) {
+                memoModeOn = false;
+                label36.Text = "MEMO \nMODE \nOFF";
+                label36.ForeColor = Color.Black;
+            } else {
+                memoModeOn = true;
+                label36.Text = "MEMO \nMODE \nON";
+                label36.ForeColor = Color.Red;
             }
         }
     }
