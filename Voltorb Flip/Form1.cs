@@ -13,7 +13,7 @@ namespace Voltorb_Flip {
     public partial class Form1 : Form {
 
         // plays a loud boom sound when a bomb card is clicked.
-        private SoundPlayer soundBoom = new SoundPlayer("boom.wav");
+        //private SoundPlayer soundBoom = new SoundPlayer("boom.wav");
         Random random = new Random();
         // this holds the possible card distributions possible each level. The tuple is (num of x2 cards, num of x3 cards, and num of bombs)
         // and the rest of the 25 cards that are neither of the 3 are just x1.
@@ -569,7 +569,7 @@ namespace Voltorb_Flip {
         }
 
         private void gameOverB() {
-            soundBoom.Play();
+            //soundBoom.Play();
             gameOver = true;
             winStreak = 0;
             // If the player revealed less multiplier cards (x1, x2, x3) than the current level's number, then they'll be demoted to
