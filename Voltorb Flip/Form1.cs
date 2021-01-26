@@ -37,6 +37,10 @@ namespace Voltorb_Flip {
         bool gameOver = false;
         int numOf2CardsLeft = 0;
         int numOf3CardsLeft = 0;
+
+        // if a player wins 5 games in a row, each flipping at least 8 value/multiplier cards, they'll 
+        // be promoted straight to level 8, the hardest level.
+        int winStreak = 0;
         public Form1() {
             InitializeComponent();
             AssignIconsToSquares();
@@ -177,6 +181,7 @@ namespace Voltorb_Flip {
                 if (currentLevelScore == 0) {
                     currentLevelScore = 1;
                 }
+                valueCardsFlipped++;
                 Console.WriteLine($"x1, no change. Score {currentLevelScore}");
             }
             scoreLabel.Text = "Level: " + level + " Score: " + currentLevelScore.ToString() + " Total Score: " + totalScore;
@@ -545,8 +550,9 @@ namespace Voltorb_Flip {
         private void gameOverB() {
             soundBoom.Play();
             gameOver = true;
-            // If the player revealed less x2 & x3 cards than the current level's number, then they'll be demoted to
-            // the level number equal to how x2 & x3 cards they did reveal. 
+            winStreak = 0;
+            // If the player revealed less multiplier cards (x1, x2, x3) than the current level's number, then they'll be demoted to
+            // the level number equal to how many multiplier cards they did reveal. 
             if(valueCardsFlipped < level) {
                 Console.Write("Level drop from " + level);
                 if(valueCardsFlipped <= 1) {
@@ -622,7 +628,17 @@ namespace Voltorb_Flip {
                 gameOver = true;
                 totalScore += currentLevelScore;
                 scoreLabel.Text = "Level: " + level + " Score: " + currentLevelScore.ToString() + " Total Score: " + totalScore;
-                if (level < 8) {
+
+                // if you flipped more than 8 multipler cards in one round, increment winstreak by 1.
+                if(valueCardsFlipped  >= 8) {
+                    winStreak++;
+                }
+
+                // if winstreak is 5 or higher, advance straight to level 8. Otherwise level increases by 1 unless we hit the max of 8.
+                if(winStreak >= 5) {
+                    level = 8;
+                    Console.WriteLine(winStreak + " wins! Go to level 8.");
+                } else if (level < 8) {
                     level++;
                 }
                 var result = MessageBox.Show("You found all the x2 and x3 cards! Click OK to go next level", "Congratulations", MessageBoxButtons.OK);
