@@ -15,6 +15,7 @@ namespace Voltorb_Flip {
         // plays a loud boom sound when a bomb card is clicked.
         //private SoundPlayer soundBoom = new SoundPlayer("boom.wav");
         Random random = new Random();
+
         // this holds the possible card distributions possible each level. The tuple is (num of x2 cards, num of x3 cards, and num of bombs)
         // and the rest of the 25 cards that are neither of the 3 are just x1.
         List<(int, int, int)> level1PossibleValues = new List<(int, int, int)>() { (3, 1, 6), (0, 3, 6), (5, 0, 6), (2, 2, 6), (4, 1, 6) };
@@ -37,6 +38,7 @@ namespace Voltorb_Flip {
         bool gameOver = false;
         int numOf2CardsLeft = 0;
         int numOf3CardsLeft = 0;
+        List<Control> listofLabels = new List<Control>();
 
         // if a player wins 5 games in a row, each flipping at least 8 value/multiplier cards, they'll 
         // be promoted straight to level 8, the hardest level.
@@ -44,6 +46,21 @@ namespace Voltorb_Flip {
         bool memoModeOn = false;
         public Form1() {
             InitializeComponent();
+
+            // adds all the labels (controls) from the tableLayoutPanel into a list
+            // removes all non-card labels (the row-column indicators and memo button)
+            listofLabels.AddRange(tableLayoutPanel1.Controls.OfType<Control>());
+            listofLabels.Remove(label1_1);
+            listofLabels.Remove(label1_2);
+            listofLabels.Remove(label1_3);
+            listofLabels.Remove(label1_4);
+            listofLabels.Remove(label1_5);
+            listofLabels.Remove(label2_1);
+            listofLabels.Remove(label2_2);
+            listofLabels.Remove(label2_3);
+            listofLabels.Remove(label2_4);
+            listofLabels.Remove(label2_5);
+            listofLabels.Remove(label36);
             AssignIconsToSquares();
         }
 
@@ -69,11 +86,8 @@ namespace Voltorb_Flip {
             numOf2CardsLeft = lvlValues.Item1;
             numOf3CardsLeft = lvlValues.Item2;
 
-            // adds all the labels (controls) from the tableLayoutPanel into a list
             // then shuffles the order of the labels to ensure a random distribution of
-            // cards throughout the board.
-            List<Control> listofLabels = new List<Control>();
-            listofLabels.AddRange(tableLayoutPanel1.Controls.OfType<Control>());
+            // cards throughout the board when we generate cards.
             shuffle(listofLabels);
 
             // go through each of the 25 labels and randomly assign them x1, x2, x3, or bomb.
@@ -82,52 +96,49 @@ namespace Voltorb_Flip {
 
             foreach (Control control in listofLabels) {
                 Label iconLabel = control as Label;
-
-                //ignore the labels containing card/bomb counts and the 36th unused title
-                if (iconLabel.Name == "label1_1" || iconLabel.Name == "label1_2" || iconLabel.Name == "label1_3" || iconLabel.Name == "label1_4" || iconLabel.Name == "label1_5"
+                /*ignore the labels containing card/bomb counts and the 36th unused title
+                //if (iconLabel.Name == "label1_1" || iconLabel.Name == "label1_2" || iconLabel.Name == "label1_3" || iconLabel.Name == "label1_4" || iconLabel.Name == "label1_5"
                     || iconLabel.Name == "label2_1" || iconLabel.Name == "label2_2" || iconLabel.Name == "label2_3" || iconLabel.Name == "label2_4" || iconLabel.Name == "label2_5"
                     || iconLabel.Name == "label36") {
-                }
-                else {
-                    bool valueSet = false;
-                    iconLabel.BackColor = Color.MediumAquamarine;
-                    if (iconLabel != null) {
-                        while (!valueSet) {
-                            int randomNum = random.Next(4);
-                            switch (randomNum) {
-                                case 0:
-                                    if (numOf2Cards > 0) {
-                                        iconLabel.Text = "x2";
-                                        numOf2Cards--;
-                                        valueSet = true;
-                                    }
-                                    break;
-                                case 1:
-                                    if (numOf3Cards > 0) {
-                                        iconLabel.Text = "x3";
-                                        numOf3Cards--;
-                                        valueSet = true;
-                                    }
-                                    break;
-                                case 2:
-                                    if (numOfBombs > 0) {
-                                        iconLabel.Text = "BOOM!";
-                                        numOfBombs--;
-                                        valueSet = true;
-                                    }
-                                    break;
-                                case 3:
-                                    if (numOf1Cards > 0) {
-                                        iconLabel.Text = "x1";
-                                        numOf1Cards--;
-                                        valueSet = true;
-                                    }
-                                    break;
-                            }
+                }*/
+                bool valueSet = false;
+                iconLabel.BackColor = Color.MediumAquamarine;
+                if (iconLabel != null) {
+                    while (!valueSet) {
+                        int randomNum = random.Next(4);
+                        switch (randomNum) {
+                            case 0:
+                                if (numOf2Cards > 0) {
+                                    iconLabel.Text = "x2";
+                                    numOf2Cards--;
+                                    valueSet = true;
+                                }
+                                break;
+                            case 1:
+                                if (numOf3Cards > 0) {
+                                    iconLabel.Text = "x3";
+                                    numOf3Cards--;
+                                    valueSet = true;
+                                }
+                                break;
+                            case 2:
+                                if (numOfBombs > 0) {
+                                    iconLabel.Text = "BOOM!";
+                                    numOfBombs--;
+                                    valueSet = true;
+                                }
+                                break;
+                            case 3:
+                                if (numOf1Cards > 0) {
+                                    iconLabel.Text = "x1";
+                                    numOf1Cards--;
+                                    valueSet = true;
+                                }
+                                break;
                         }
-                        // then hide the card's value by changing text color to match background color.
-                        iconLabel.ForeColor = iconLabel.BackColor;
                     }
+                    // then hide the card's value by changing text color to match background color.
+                    iconLabel.ForeColor = iconLabel.BackColor;
                 }
             }
             calculateCardBombIndicators();
@@ -250,6 +261,7 @@ namespace Voltorb_Flip {
             int numBombs3 = 0;
             int numBombs4 = 0;
             int numBombs5 = 0;
+
             if (valueOfCard(label1.Text) > 0) {
                 sum1 += valueOfCard(label1.Text);
             }
@@ -592,28 +604,24 @@ namespace Voltorb_Flip {
                 }
                 Console.WriteLine(" to " + level);
             }
-            foreach (Control control in tableLayoutPanel1.Controls) {
+
+            // reveals all unflipped cards
+            foreach (Control control in listofLabels) {
                 Label iconLabel = control as Label;
+                if (iconLabel != null) {
+                    // If the clicked label is black, the player clicked
+                    // an icon that's already been revealed --
+                    // ignore the click
+                    if (iconLabel.ForeColor == Color.Black) {
 
-                // reveals all unflipped cards.
-                //ignore the labels containing card/bomb counts and the 36th unused title
-                if (iconLabel.Name == "label1_1" || iconLabel.Name == "label1_2" || iconLabel.Name == "label1_3" || iconLabel.Name == "label1_4" || iconLabel.Name == "label1_5"
-                    || iconLabel.Name == "label2_1" || iconLabel.Name == "label2_2" || iconLabel.Name == "label2_3" || iconLabel.Name == "label2_4" || iconLabel.Name == "label2_5"
-                    || iconLabel.Name == "label36") {
-                }
-                else {
-                    if (iconLabel != null) {
-                        // If the clicked label is black, the player clicked
-                        // an icon that's already been revealed --
-                        // ignore the click
-                        if (iconLabel.ForeColor == Color.Black) {
-
-                        }
-                        iconLabel.ForeColor = Color.Black;
                     }
+                    iconLabel.ForeColor = Color.Black;
                 }
+
 
             }
+
+            // if player presses ok, generate a new level.
             var result = MessageBox.Show("Game over! Demoted to level " + level, "BOOM!", MessageBoxButtons.OK);
             if (result == DialogResult.OK) {
                 AssignIconsToSquares();
