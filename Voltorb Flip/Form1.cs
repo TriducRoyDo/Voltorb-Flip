@@ -172,8 +172,8 @@ namespace Voltorb_Flip {
                         clickedLabel.ForeColor = clickedLabel.BackColor;
                     }
                     else {
-                    clickedLabel.BackColor = Color.MediumAquamarine;
-                    clickedLabel.ForeColor = clickedLabel.BackColor;
+                        clickedLabel.BackColor = Color.MediumAquamarine;
+                        clickedLabel.ForeColor = clickedLabel.BackColor;
                     }
                 }
                 else {
@@ -594,9 +594,9 @@ namespace Voltorb_Flip {
             winStreak = 0;
             // If the player revealed less multiplier cards (x1, x2, x3) than the current level's number, then they'll be demoted to
             // the level number equal to how many multiplier cards they did reveal. 
-            if(valueCardsFlipped < level) {
+            if (valueCardsFlipped < level) {
                 Console.Write("Level drop from " + level);
-                if(valueCardsFlipped <= 1) {
+                if (valueCardsFlipped <= 1) {
                     level = 1;
                 }
                 else {
@@ -660,6 +660,8 @@ namespace Voltorb_Flip {
 
         // checks if user found all x2 & x3 cards. If they did, they cleared the level.
         private void CheckForWinner() {
+            // result is used to capture user input for message boxes.
+            var result = DialogResult;
             Console.WriteLine($"2cards: {numOf2CardsLeft}. 3cards: {numOf3CardsLeft}");
             if (numOf2CardsLeft == 0 && numOf3CardsLeft == 0) {
                 gameOver = true;
@@ -667,7 +669,7 @@ namespace Voltorb_Flip {
                 scoreLabel.Text = "Level: " + level + " Score: " + currentLevelScore.ToString() + " Total Score: " + totalScore;
 
                 // if you flipped more than 8 multipler cards in one round, increment winstreak by 1. Otherwise, the streak is ended. 
-                if(valueCardsFlipped  >= 8) {
+                if (valueCardsFlipped >= 8) {
                     winStreak++;
                 }
                 else {
@@ -676,14 +678,21 @@ namespace Voltorb_Flip {
 
                 // if winstreak is 5 or higher, advance straight to level 8. Otherwise level increases by 1 unless we hit the max of 7.
                 // Note that level 8 can only be acheived by winstreak, otherwise we cap at level 7.
-                if(winStreak >= 5) {
+                if (winStreak >= 5) {
                     level = 8;
                     Console.WriteLine(winStreak + " wins! Go to level 8.");
-                } else if (level < 7) {
+                    result = MessageBox.Show("Level cleared! Since you reached a winstreak of 5, you're going to level 8!", "Congratulations", MessageBoxButtons.OK);
+                    if (result == DialogResult.OK) {
+                        AssignIconsToSquares();
+                        gameOver = false;
+                        return;
+                    }
+                }
+                else if (level < 7) {
                     level++;
                 }
                 Console.WriteLine($"Winstreak: {winStreak}");
-                var result = MessageBox.Show("You found all the x2 and x3 cards! Click OK to go next level", "Congratulations", MessageBoxButtons.OK);
+                result = MessageBox.Show("You found all the x2 and x3 cards! Click OK to go next level", "Congratulations", MessageBoxButtons.OK);
                 if (result == DialogResult.OK) {
                     AssignIconsToSquares();
                     gameOver = false;
@@ -698,7 +707,8 @@ namespace Voltorb_Flip {
                 memoModeOn = false;
                 label36.Text = "MEMO \nMODE \nOFF";
                 label36.ForeColor = Color.Black;
-            } else {
+            }
+            else {
                 memoModeOn = true;
                 label36.Text = "MEMO \nMODE \nON";
                 label36.ForeColor = Color.Red;
