@@ -32,7 +32,7 @@ How my current version looks like.
 
 - Tip 2: When starting a level, if you see any rows are columns where the bomb number (the bottom number on value-bomb indicators) is 0 that means that row/column is completely safe and you should flip all the cards in that row/column first. Even if all the cards are x1, these will still count as multiplier cards flipped for the level which helps if you later hit a bomb and prevent any big level demotions.
 
-- Secret: If a player clears 5 levels in a row, each level flipping at least 8 multiplier cards before winning, then they will be promoted straight to the max level 8!
+- Secret: Normally, the max level a player can reach is 7. However, if a player clears 5 levels in a row, each level flipping at least 8 multiplier cards before winning, then they will be promoted straight to the secret max level 8! This level has the highest possible scores you can achieve in any one level and has lesser bombs than level 7 allowing easier clears.
 
 ## Additional resources
 - https://bulbapedia.bulbagarden.net/wiki/Voltorb_Flip - Explains the game's mechanics and some possible strategies, also reveals the possible number of bombs/x2/x3 cards that can appear per level. 
