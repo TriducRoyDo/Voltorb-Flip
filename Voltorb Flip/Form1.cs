@@ -666,18 +666,23 @@ namespace Voltorb_Flip {
                 totalScore += currentLevelScore;
                 scoreLabel.Text = "Level: " + level + " Score: " + currentLevelScore.ToString() + " Total Score: " + totalScore;
 
-                // if you flipped more than 8 multipler cards in one round, increment winstreak by 1.
+                // if you flipped more than 8 multipler cards in one round, increment winstreak by 1. Otherwise, the streak is ended. 
                 if(valueCardsFlipped  >= 8) {
                     winStreak++;
                 }
+                else {
+                    winStreak = 0;
+                }
 
-                // if winstreak is 5 or higher, advance straight to level 8. Otherwise level increases by 1 unless we hit the max of 8.
+                // if winstreak is 5 or higher, advance straight to level 8. Otherwise level increases by 1 unless we hit the max of 7.
+                // Note that level 8 can only be acheived by winstreak, otherwise we cap at level 7.
                 if(winStreak >= 5) {
                     level = 8;
                     Console.WriteLine(winStreak + " wins! Go to level 8.");
-                } else if (level < 8) {
+                } else if (level < 7) {
                     level++;
                 }
+                Console.WriteLine($"Winstreak: {winStreak}");
                 var result = MessageBox.Show("You found all the x2 and x3 cards! Click OK to go next level", "Congratulations", MessageBoxButtons.OK);
                 if (result == DialogResult.OK) {
                     AssignIconsToSquares();
